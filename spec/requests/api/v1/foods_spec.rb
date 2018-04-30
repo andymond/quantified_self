@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "successful API/V1 requests" do
+describe "successful API/V1 food requests" do
   it "can return index of all existing foods" do
     create_list(:food, 10)
 
