@@ -44,4 +44,34 @@ describe "successful API/V1 requests" do
     expect(results[:name]).to eq("test1")
     expect(results[:calories]).to eq(100)
   end
+
+  it "can update all attributes of exisiting foods" do
+    food = create(:food)
+
+    params = {:food => {:name => "flan", :calories => 10000}}
+    headers = { 'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json' }
+    patch "/api/v1/foods/#{food.id}", params: params.to_json, headers: headers
+
+    expect(response).to be_success
+
+    results = JSON.parse(response.body, symbolize_names: true)
+    expect(results).to be_a Hash
+    expect(results[:name]).to eq("flan")
+    expect(results[:calories]).to eq(10000)
+  end
+
+  it "can update one attribute of exisiting foods" do
+    food = create(:food)
+
+    params = {:food => {:calories => 10000}}
+    headers = { 'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json' }
+    patch "/api/v1/foods/#{food.id}", params: params.to_json, headers: headers
+
+    expect(response).to be_success
+
+    results = JSON.parse(response.body, symbolize_names: true)
+    expect(results).to be_a Hash
+    expect(results[:name]).to eq(food.name)
+    expect(results[:calories]).to eq(10000)
+  end
 end
