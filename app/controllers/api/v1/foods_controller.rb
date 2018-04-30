@@ -1,4 +1,5 @@
 class Api::V1::FoodsController < ApplicationController
+  before_action :find_food, only: [:show, :update, :destroy]
   before_action :validate_params, only: :create
 
   def index
@@ -6,7 +7,7 @@ class Api::V1::FoodsController < ApplicationController
   end
 
   def show
-    render json: Food.find(params[:id])
+    render json: @food
   end
 
   def create
@@ -14,7 +15,21 @@ class Api::V1::FoodsController < ApplicationController
     render json: Food.find(food.id)
   end
 
+  def update
+    @food.update(food_params)
+    render json: Food.find(@food.id)
+  end
+
+  def destroy
+    @food.destroy
+    render json: {success: "#{@food.name} deleted."}
+  end
+
   private
+
+    def find_food
+      @food = Food.find(params[:id])
+    end
 
     def food_params
       params.require(:food).permit(:name, :calories)
@@ -22,7 +37,7 @@ class Api::V1::FoodsController < ApplicationController
 
     def validate_params
       payload = {error: "missing param"}
-      if food_params[:name] === "" || food_params[:calories] === ""
+      if food_params[:name].nil? || food_params[:calories].nil?
         render json: payload, status: 400
       end
     end
