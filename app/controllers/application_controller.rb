@@ -3,7 +3,7 @@ class ApplicationController < ActionController::API
 
   private
     def record_not_found
-      render json: {error: "record not found"}
+      render json: {error: "record not found"}, status: 404
     end
 
 end

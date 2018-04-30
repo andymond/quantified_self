@@ -37,7 +37,7 @@ class Api::V1::FoodsController < ApplicationController
 
     def validate_params
       payload = {error: "missing param"}
-      if food_params[:name] === "" || food_params[:calories] === ""
+      if food_params[:name].nil? || food_params[:calories].nil?
         render json: payload, status: 400
       end
     end
