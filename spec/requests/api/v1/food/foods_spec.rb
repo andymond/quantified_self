@@ -74,4 +74,17 @@ describe "successful API/V1 requests" do
     expect(results[:name]).to eq(food.name)
     expect(results[:calories]).to eq(10000)
   end
+
+  it "can delete existing foods" do
+    food_1 = create(:food)
+    create(:food)
+
+    delete "/api/v1/foods/#{food_1.id}"
+
+    expect(response).to be_success
+
+    results = JSON.parse(response.body, symbolize_names: true)
+    expect(results[:success]).to eq("#{food_1.name} deleted.")
+    expect(Food.all.count).to eq(1)
+  end
 end
