@@ -12,8 +12,10 @@ describe "successful API/V1 requests" do
 
     expect(results).to be_an Array
     expect(results.count).to eq(10)
+    expect(results.first[:id]).to eq(1)
     expect(results.first[:name]).to eq('testfood1')
     expect(results.first[:calories]).to eq(100)
+    expect(results.last[:id]).to eq(10)
     expect(results.last[:name]).to eq('testfood10')
     expect(results.last[:calories]).to eq(1000)
   end
