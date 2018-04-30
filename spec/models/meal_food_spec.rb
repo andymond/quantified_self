@@ -1,5 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe MealFood, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe MealFood do
+  it {should belong_to(:food)}
+  it {should belong_to(:meal)}
 end
