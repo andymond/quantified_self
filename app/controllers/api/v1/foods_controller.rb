@@ -1,5 +1,5 @@
 class Api::V1::FoodsController < ApplicationController
-  before_action :find_food, only: [:show, :update]
+  before_action :find_food, only: [:show, :update, :destroy]
   before_action :validate_params, only: :create
 
   def index
@@ -18,6 +18,11 @@ class Api::V1::FoodsController < ApplicationController
   def update
     @food.update(food_params)
     render json: Food.find(@food.id)
+  end
+
+  def destroy
+    @food.destroy
+    render json: {success: "#{@food.name} deleted."}
   end
 
   private
