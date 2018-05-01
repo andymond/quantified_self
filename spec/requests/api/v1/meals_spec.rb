@@ -16,22 +16,22 @@ describe "Successful API/V1 meal requests" do
     expect(results.first[:id]).to eq(first_meal.id)
     expect(results.first[:name]).to eq(first_meal.name)
     expect(results.first[:food]).to be_an Array
-    expect(results.first[:food].first[:id]).to eq(1)
-    expect(results.first[:food].first[:name]).to eq("testfood1")
-    expect(results.first[:food].first[:calories]).to eq(100)
+    expect(results.first[:food].first[:id]).to eq(first_meal.foods.first.id)
+    expect(results.first[:food].first[:name]).to eq(first_meal.foods.first.name)
+    expect(results.first[:food].first[:calories]).to eq(first_meal.foods.first.calories)
     expect(results.last[:id]).to eq(last_meal.id)
     expect(results.last[:name]).to eq(last_meal.name)
     expect(results.last[:food]).to be_an Array
-    expect(results.last[:food].first[:id]).to eq(10)
-    expect(results.last[:food].first[:name]).to eq("testfood10")
-    expect(results.last[:food].first[:calories]).to eq(1000)
+    expect(results.last[:food].first[:id]).to eq(last_meal.foods.first.id)
+    expect(results.last[:food].first[:name]).to eq(last_meal.foods.first.name)
+    expect(results.last[:food].first[:calories]).to eq(last_meal.foods.first.calories)
   end
 
   it "can return a single meal by id" do
     meal_list  = create_list(:meal, 10)
     meal = meal_list.first
 
-    get "/api/v1/meals/#{meal.id}"
+    get "/api/v1/meals/#{meal.id}/foods"
 
     expect(response).to be_success
 
