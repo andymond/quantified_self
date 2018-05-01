@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       resources :foods, only: [:index, :show, :create, :update, :destroy]
       resources :meals, only: [:index] do
         post 'foods/:id', to: 'meal_foods#create'
+        delete 'foods/:id', to: 'meal_foods#destroy'
       end
       get '/meals/:id/foods', to: 'meals#show'
     end
