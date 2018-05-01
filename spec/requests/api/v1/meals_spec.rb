@@ -26,4 +26,22 @@ describe "Successful API/V1 meal requests" do
     expect(results.last[:food].first[:name]).to eq("testfood10")
     expect(results.last[:food].first[:calories]).to eq(1000)
   end
+
+  it "can return a single meal by id" do
+    meal_list  = create_list(:meal, 10)
+    meal = meal_list.first
+
+    get "/api/v1/meals/#{meal.id}"
+
+    expect(response).to be_success
+
+    results = JSON.parse(response.body, symbolize_names: true)
+
+    expect(results).to be_a Hash
+    expect(results[:id]).to eq(meal.id)
+    expect(results[:name]).to eq(meal.name)
+    expect(results[:food]).to be_an Array
+    expect(results[:food].first[:name]).to eq(meal.foods.first.name)
+    expect(results[:food].first[:calories]).to eq(meal.foods.first.calories)
+  end
 end
