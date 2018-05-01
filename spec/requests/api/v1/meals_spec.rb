@@ -72,3 +72,29 @@ describe "Successful API/V1 meal requests" do
     expect(results[:message]).to eq("Successfully removed #{food.name} from #{meal.name}")
   end
 end
+
+describe "Unsuccessful API/V1 meal requests" do
+  it "can't add non-existent foods to meals" do
+    meal = Meal.create(name: "meal")
+
+    post "/api/v1/meals/#{meal.id}/foods/1"
+
+    expect(response).to_not be_success
+
+    results = JSON.parse(response.body, symbolize_names: true)
+
+    expect(results[:error]).to eq("record not found")
+  end
+
+  it "can't add foods to non-existent meals" do
+    food = create(:food)
+
+    post "/api/v1/meals/1/foods/#{food.id}"
+
+    expect(response).to_not be_success
+
+    results = JSON.parse(response.body, symbolize_names: true)
+
+    expect(results[:error]).to eq("record not found")
+  end
+end
