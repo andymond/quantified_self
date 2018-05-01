@@ -10,16 +10,20 @@ describe "Successful API/V1 meal requests" do
 
     expect(response).to be_success
 
-    results = JSON.parse(response.body, symbolize_name: true)
+    results = JSON.parse(response.body, symbolize_names: true)
 
     expect(results).to be_an Array
     expect(results.first[:id]).to eq(first_meal.id)
     expect(results.first[:name]).to eq(first_meal.name)
     expect(results.first[:food]).to be_an Array
-    expect(results.first[:food].first).to eq(first_meal.foods.first)
+    expect(results.first[:food].first[:id]).to eq(1)
+    expect(results.first[:food].first[:name]).to eq("testfood1")
+    expect(results.first[:food].first[:calories]).to eq(100)
     expect(results.last[:id]).to eq(last_meal.id)
     expect(results.last[:name]).to eq(last_meal.name)
     expect(results.last[:food]).to be_an Array
-    expect(results.last[:food].first).to eq(last_meal.foods.first)
+    expect(results.last[:food].first[:id]).to eq(10)
+    expect(results.last[:food].first[:name]).to eq("testfood10")
+    expect(results.last[:food].first[:calories]).to eq(1000)
   end
 end
