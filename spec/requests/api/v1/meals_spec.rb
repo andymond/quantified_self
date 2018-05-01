@@ -58,4 +58,17 @@ describe "Successful API/V1 meal requests" do
     expect(results[:message]).to eq("Successfully added #{food.name} to #{meal.name}")
   end
 
+  it "can remove a specific food from a meal by ids" do
+    meal = create(:meal)
+    food = meal.foods.first
+
+    delete "/api/v1/meals/#{meal.id}/foods/#{food.id}"
+
+
+    expect(response).to be_success
+
+    results = JSON.parse(response.body, symbolize_names: true)
+
+    expect(results[:message]).to eq("Successfully removed #{food.name} from #{meal.name}")
+  end
 end
