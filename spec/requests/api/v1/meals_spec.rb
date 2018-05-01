@@ -44,4 +44,18 @@ describe "Successful API/V1 meal requests" do
     expect(results[:food].first[:name]).to eq(meal.foods.first.name)
     expect(results[:food].first[:calories]).to eq(meal.foods.first.calories)
   end
+
+  it "can add a specific food to a meal by ids" do
+    meal = create(:meal)
+    food = create(:food)
+
+    post "/api/v1/meals/#{meal.id}/foods/#{food.id}"
+
+    expect(response).to be_success
+
+    results = JSON.parse(response.body, symbolize_names: true)
+
+    expect(results[:message]).to eq("Successfully added #{food.name} to #{meal.name}")
+  end
+
 end
