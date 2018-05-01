@@ -4,4 +4,8 @@ class Api::V1::MealsController < ApplicationController
     render json: Meal.all
   end
 
+  def show
+    render json: Meal.find(params[:id])
+  end
+
 end
